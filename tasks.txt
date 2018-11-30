@@ -1,0 +1,15 @@
+
+Mases: saving and loading
+
+Sean:
+-Add and remove shape objects to window using buttons
+	-prompt for location, radius/size, bg color
+
+Siavash:
+-click shape to make it the selected shape
+-rotate
+-translate
+
+Alexa:
+-scale
+-change shape color
