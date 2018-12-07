@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.geometry.Point3D;
 import javafx.scene.shape.Box;
@@ -21,19 +22,22 @@ public class ShapeSaver {
 		b.getTransforms().add(new Translate(1, 1, 1));
 		Rotate r = new Rotate();
 		r.setAxis(new Point3D(5, 5, 5));
+		b.setScaleX(10);
 		b.getTransforms().add(r);
 		saver.saveBox(b);
 		saver.saveBox(b);
 		saver.saveAll("C:\\Users\\Shant\\Desktop\\proba.txt");
-		b.setScaleX(100);
-		b.setScaleY(100);
-		b.getTransforms().add(new Translate(1, 5, 10));
-		saver.printTranslate(b);
+		saver.loadAll("C:\\Users\\Shant\\Desktop\\proba.txt");
+		for(int i = 0; i < saver.boxes.size(); i++){
+			Box s = saver.boxes.get(i);
+			System.out.println(s.getScaleX());
+		}
+		//saver.printTranslate(b);
 	}
 	//sphere, box, cylinder
-	private ArrayList<Box> boxes = new ArrayList<Box>();
-	private ArrayList<Sphere> spheres = new ArrayList<Sphere>();
-	private ArrayList<Cylinder> cylinders = new ArrayList<Cylinder>();
+	private	List<Box> boxes = new ArrayList<Box>();
+	private List<Sphere> spheres = new ArrayList<Sphere>();
+	private List<Cylinder> cylinders = new ArrayList<Cylinder>();
 	
 	public boolean saveBox(Box b){
 		boxes.add(b);
@@ -79,7 +83,9 @@ public class ShapeSaver {
 		 BufferedWriter bw = new BufferedWriter(fw);
 		 	for(int i = 0; i < boxes.size(); i++){
 		 		Translate t = (Translate)boxes.get(i).getTransforms().get(0);
-		 		Rotate r = (Rotate)boxes.get(i).getTransforms().get(1);
+		 		Rotate rX = (Rotate)boxes.get(i).getTransforms().get(1);
+		 		Rotate rY = (Rotate)boxes.get(i).getTransforms().get(2);
+		 		Rotate rZ = (Rotate)boxes.get(i).getTransforms().get(3);
 		 		text.append("Box");
 		 		text.append(",");
 		 		text.append(boxes.get(i).getHeight());
@@ -100,16 +106,18 @@ public class ShapeSaver {
 		 		text.append(",");
 		 		text.append(t.getZ());
 		 		text.append(",");
-		 		text.append(r.getAxis().getX());
+		 		text.append(rX.getAngle());
 		 		text.append(",");
-		 		text.append(r.getAxis().getY());
+		 		text.append(rY.getAngle());
 		 		text.append(",");
-		 		text.append(r.getAxis().getZ());
+		 		text.append(rZ.getAngle());
 		 		text.append(System.getProperty("line.separator"));
 			}
 		 	for(int i = 0; i < spheres.size(); i++){
 		 		Translate t = (Translate)spheres.get(i).getTransforms().get(0);
-		 		Rotate r = (Rotate)spheres.get(i).getTransforms().get(1);
+		 		Rotate rX = (Rotate)spheres.get(i).getTransforms().get(1);
+		 		Rotate rY = (Rotate)spheres.get(i).getTransforms().get(2);
+		 		Rotate rZ = (Rotate)spheres.get(i).getTransforms().get(3);
 		 		text.append("Sphere");
 		 		text.append(",");
 		 		text.append(spheres.get(i).getRadius());
@@ -126,17 +134,19 @@ public class ShapeSaver {
 		 		text.append(",");
 		 		text.append(t.getZ());
 		 		text.append(",");
-		 		text.append(r.getAxis().getX());
+		 		text.append(rX.getAngle());
 		 		text.append(",");
-		 		text.append(r.getAxis().getY());
+		 		text.append(rY.getAngle());
 		 		text.append(",");
-		 		text.append(r.getAxis().getZ());
+		 		text.append(rZ.getAngle());
 		 		text.append(System.getProperty("line.separator"));
 		 	}
 		 	
 		 	for(int i = 0; i < cylinders.size(); i++){
 		 		Translate t = (Translate)cylinders.get(i).getTransforms().get(0);
-		 		Rotate r = (Rotate)cylinders.get(i).getTransforms().get(1);
+		 		Rotate rX = (Rotate)cylinders.get(i).getTransforms().get(1);
+		 		Rotate rY = (Rotate)cylinders.get(i).getTransforms().get(2);
+		 		Rotate rZ = (Rotate)cylinders.get(i).getTransforms().get(3);
 		 		text.append("Cylinder");
 		 		text.append(",");
 		 		text.append(cylinders.get(i).getRadius());
@@ -155,11 +165,11 @@ public class ShapeSaver {
 		 		text.append(",");
 		 		text.append(t.getZ());
 		 		text.append(",");
-		 		text.append(r.getAxis().getX());
+		 		text.append(rX.getAngle());
 		 		text.append(",");
-		 		text.append(r.getAxis().getY());
+		 		text.append(rY.getAngle());
 		 		text.append(",");
-		 		text.append(r.getAxis().getZ());
+		 		text.append(rZ.getAngle());
 		 		text.append(System.getProperty("line.separator"));
 		 	}
 		 	bw.write(text.toString());
@@ -173,6 +183,9 @@ public class ShapeSaver {
 	
 	public boolean loadAll(String path){
 		FileReader reader;
+		boxes.clear();
+		spheres.clear();
+		cylinders.clear();
 		try {
 			reader = new FileReader(path);
 			BufferedReader br = new BufferedReader(reader);
@@ -182,7 +195,9 @@ public class ShapeSaver {
 				if(texts[0].equals("Box")){
 					Box box = new Box();
 					Translate t = new Translate();
-					Rotate r = new Rotate();
+					Rotate rX = new Rotate();
+					Rotate rY = new Rotate();
+					Rotate rZ = new Rotate();
 					box.setHeight(Double.parseDouble(texts[1]));
 					box.setWidth(Double.parseDouble(texts[2]));
 					box.setDepth(Double.parseDouble(texts[3]));
@@ -192,15 +207,25 @@ public class ShapeSaver {
 					t.setX(Double.parseDouble(texts[7]));
 					t.setY(Double.parseDouble(texts[8]));
 					t.setZ(Double.parseDouble(texts[9]));
-					r.setAxis(new Point3D(Double.parseDouble(texts[10]), Double.parseDouble(texts[11]), Double.parseDouble(texts[12])));
+					rX.setAxis(new Point3D(1, 0, 0));
+					rX.setAngle(Double.parseDouble(texts[10]));
+					rY.setAxis(new Point3D(0, 1, 0));
+					rY.setAngle(Double.parseDouble(texts[11]));
+					rZ.setAxis(new Point3D(0, 0, 1));
+					rZ.setAngle(Double.parseDouble(texts[12]));
 					box.getTransforms().add(t);
-					box.getTransforms().add(r);
+					box.getTransforms().add(rX);
+					box.getTransforms().add(rY);
+					box.getTransforms().add(rZ);
+					boxes.add(box);
 					
 				}
 				else if(texts[0].equals("Sphere")){
 					Sphere sphere = new Sphere();
 					Translate t = new Translate();
-					Rotate r = new Rotate();
+					Rotate rX = new Rotate();
+					Rotate rY = new Rotate();
+					Rotate rZ = new Rotate();
 					sphere.setRadius(Double.parseDouble(texts[1]));
 					sphere.setScaleX(Double.parseDouble(texts[2]));
 					sphere.setScaleY(Double.parseDouble(texts[3]));
@@ -208,14 +233,24 @@ public class ShapeSaver {
 					t.setX(Double.parseDouble(texts[5]));
 					t.setY(Double.parseDouble(texts[6]));
 					t.setZ(Double.parseDouble(texts[7]));
-					r.setAxis(new Point3D(Double.parseDouble(texts[8]), Double.parseDouble(texts[9]), Double.parseDouble(texts[10])));
+					rX.setAxis(new Point3D(1, 0, 0));
+					rX.setAngle(Double.parseDouble(texts[8]));
+					rY.setAxis(new Point3D(0, 1, 0));
+					rY.setAngle(Double.parseDouble(texts[9]));
+					rZ.setAxis(new Point3D(0, 0, 1));
+					rZ.setAngle(Double.parseDouble(texts[10]));
 					sphere.getTransforms().add(t);
-					sphere.getTransforms().add(r);
+					sphere.getTransforms().add(rX);
+					sphere.getTransforms().add(rY);
+					sphere.getTransforms().add(rZ);
+					spheres.add(sphere);
 				}
 				else if(texts[0].equals("Cylinder")){
 					Cylinder cylinder = new Cylinder();
 					Translate t = new Translate();
-					Rotate r = new Rotate();
+					Rotate rX = new Rotate();
+					Rotate rY = new Rotate();
+					Rotate rZ = new Rotate();
 					cylinder.setRadius(Double.parseDouble(texts[1]));
 					cylinder.setHeight(Double.parseDouble(texts[2]));
 					cylinder.setScaleX(Double.parseDouble(texts[3]));
@@ -224,12 +259,17 @@ public class ShapeSaver {
 					t.setX(Double.parseDouble(texts[6]));
 					t.setY(Double.parseDouble(texts[7]));
 					t.setZ(Double.parseDouble(texts[8]));
-					r.setAxis(new Point3D(Double.parseDouble(texts[9]), Double.parseDouble(texts[10]), Double.parseDouble(texts[11])));
+					rX.setAxis(new Point3D(1, 0, 0));
+					rX.setAngle(Double.parseDouble(texts[9]));
+					rY.setAxis(new Point3D(0, 1, 0));
+					rY.setAngle(Double.parseDouble(texts[10]));
+					rZ.setAxis(new Point3D(0, 0, 1));
+					rZ.setAngle(Double.parseDouble(texts[11]));
 					cylinder.getTransforms().add(t);
-					cylinder.getTransforms().add(r);
-				}
-				else{
-					return false;
+					cylinder.getTransforms().add(rX);
+					cylinder.getTransforms().add(rY);
+					cylinder.getTransforms().add(rZ);
+					cylinders.add(cylinder);
 				}
 			}
 			br.close();
