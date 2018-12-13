@@ -226,7 +226,6 @@ public class MainClass extends Application{
 	
 	private static SubScene createSubScene(String title,
         Paint fillPaint, Camera camera, boolean msaa) {
-        //Group root = new Group();
         HBox root = new HBox();
         PointLight light = new PointLight(Color.WHITE);
         light.setTranslateX(50);
@@ -236,30 +235,15 @@ public class MainClass extends Application{
         light2.setTranslateX(400);
         light2.setTranslateY(0);
         light2.setTranslateZ(-400);
-        
-        Box box = new Box();
-        box.setWidth(50);
-        box.setHeight(50);
-        box.setDepth(50);
-        box.setTranslateX(200);
-        box.setTranslateY(150);
-        //box.setRotationAxis(new Point3D(0,0,1));
-        //box.setRotate(20);
-       // box.setRotationAxis(new Point3D(0,30,1));
-        //box.setRotate(30);
-        //Rotate r = new Rotate();
-        Rotate rotate = Rotate.rotate(50, 0, 0);
-        rotate.setAxis(new Point3D(0,1,0));
-        box.getTransforms().add(rotate);
-        System.out.println(rotate.getAngle());
+
         AmbientLight ambientLight = new AmbientLight(Color.color(0, 0, 0));
-        root.getChildren().addAll(ambientLight, light, light2);//, box);//, node);
+        root.getChildren().addAll(ambientLight, light, light2);
  
         SubScene subScene = new SubScene(root, 500, 400, true, 
                 msaa ? SceneAntialiasing.BALANCED : SceneAntialiasing.DISABLED);
         subScene.setFill(fillPaint);
         subScene.setCamera(camera);
-        //subScene.setRoot(root);
+        
         return subScene;
     }
 
