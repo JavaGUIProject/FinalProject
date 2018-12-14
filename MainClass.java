@@ -4,6 +4,9 @@ import java.util.List;
 import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -273,9 +276,74 @@ public class MainClass extends Application{
 		scaleSlider.setMax(10);
 		
 		Label cLabel = new Label("Color");
-
+		ChoiceBox colorChoice = new ChoiceBox(FXCollections.observableArrayList(
+                "Default","Red","Orange","Yellow","Green","Blue","Purple"));
+                colorChoice.getSelectionModel().select(0);
+                colorChoice.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+                    public void changed(ObservableValue ov, Number oldValue, Number newValue) {
+                       int selected = newValue.intValue();
+                       if(selected == 1) {
+                           if(selectedShape.equals(cyl)) {
+                               cyl.setMaterial(new PhongMaterial(Color.RED));
+                           }else if(selectedShape.equals(sphere)){
+                               sphere.setMaterial(new PhongMaterial(Color.RED));
+                           }else if(selectedShape.equals(box)) {
+                               box.setMaterial(new PhongMaterial(Color.RED));
+                           }
+                       }else if(selected == 2) {
+                               if(selectedShape.equals(cyl)) {
+                               cyl.setMaterial(new PhongMaterial(Color.ORANGE));
+                           }else if(selectedShape.equals(sphere)){
+                               sphere.setMaterial(new PhongMaterial(Color.ORANGE));
+                           }else if(selectedShape.equals(box)) {
+                               box.setMaterial(new PhongMaterial(Color.ORANGE));
+                           }
+                       } else if(selected == 3) {
+                               if(selectedShape.equals(cyl)) {
+                               cyl.setMaterial(new PhongMaterial(Color.YELLOW));
+                           }else if(selectedShape.equals(sphere)){
+                               sphere.setMaterial(new PhongMaterial(Color.YELLOW));
+                           }else if(selectedShape.equals(box)) {
+                               box.setMaterial(new PhongMaterial(Color.YELLOW));
+                           }
+                       }else if(selected == 4) {
+                               if(selectedShape.equals(cyl)) {
+                               cyl.setMaterial(new PhongMaterial(Color.GREEN));
+                           }else if(selectedShape.equals(sphere)){
+                               sphere.setMaterial(new PhongMaterial(Color.GREEN));
+                           }else if(selectedShape.equals(box)) {
+                               box.setMaterial(new PhongMaterial(Color.GREEN));
+                           }
+                       }else if(selected == 5) {
+                               if(selectedShape.equals(cyl)) {
+                               cyl.setMaterial(new PhongMaterial(Color.BLUE));
+                           }else if(selectedShape.equals(sphere)){
+                               sphere.setMaterial(new PhongMaterial(Color.BLUE));
+                           }else if(selectedShape.equals(box)) {
+                               box.setMaterial(new PhongMaterial(Color.BLUE));
+                           }
+                       }else if(selected == 6) {
+                               if(selectedShape.equals(cyl)) {
+                               cyl.setMaterial(new PhongMaterial(Color.PURPLE));
+                           }else if(selectedShape.equals(sphere)){
+                               sphere.setMaterial(new PhongMaterial(Color.PURPLE));
+                           }else if(selectedShape.equals(box)) {
+                               box.setMaterial(new PhongMaterial(Color.PURPLE));
+                           }
+                       }else if(selected == 0) {
+                               if(selectedShape.equals(cyl)) {
+                               cyl.setMaterial(new PhongMaterial(Color.LIGHTGRAY));
+                           }else if(selectedShape.equals(sphere)){
+                               sphere.setMaterial(new PhongMaterial(Color.LIGHTGRAY));
+                           }else if(selectedShape.equals(box)) {
+                               box.setMaterial(new PhongMaterial(Color.LIGHTGRAY));
+                           }
+                       }        
+                    }
+                });
+		
 		VBox optionsBox = new VBox(10, optionLabel, vLabel, verticalSlider, hLabel, horizontalSlider,sLabel,scaleSlider,translateXLabel,xTranslate,
-				translateXSubmit,translateYLabel,yTranslate,translateYSubmit,cLabel );
+				translateXSubmit,translateYLabel,yTranslate,translateYSubmit,cLabel,colorChoice);
 		optionsBox.setAlignment(Pos.TOP_CENTER);
 		HBox hb1 = new HBox(bp,optionsBox);
 
