@@ -38,6 +38,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.PhongMaterial;
+import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 
 
@@ -54,6 +55,7 @@ public class MainClass extends Application{
 	Rotate boxRotateY = new Rotate(0, Rotate.Y_AXIS);
 	int posX;
 	int posY;
+	Scale scale = new Scale(1.0,1.0,1.0);
 
 	public static void main(String[] args) {
 		Application.launch(args);
@@ -241,9 +243,9 @@ public class MainClass extends Application{
 		bottomBox.setAlignment(Pos.CENTER);
 		bp.setBottom(bottomBox);
 
-		cyl.getTransforms().addAll(translate,cylinderRotateX, cylinderRotateY);
-		box.getTransforms().addAll(translate, boxRotateX, boxRotateY);
-		sphere.getTransforms().addAll(translate,sphereRotateX,sphereRotateY);
+		cyl.getTransforms().addAll(translate,scale,cylinderRotateX, cylinderRotateY);
+		box.getTransforms().addAll(translate,scale, boxRotateX, boxRotateY);
+		sphere.getTransforms().addAll(translate,scale,sphereRotateX,sphereRotateY);
 
 
 		Label optionLabel = new Label("Options");
@@ -262,9 +264,18 @@ public class MainClass extends Application{
 		horizontalSlider.setShowTickMarks(true);
 		horizontalSlider.setMin(0);
 		horizontalSlider.setMax(360);
+		
+		Label sLabel = new Label("Scale");
+		Slider scaleSlider = new Slider();
+		scaleSlider.setShowTickMarks(true);
+		scaleSlider.setShowTickLabels(true);
+		scaleSlider.setMin(1);
+		scaleSlider.setMax(10);
+		
+		Label cLabel = new Label("Color");
 
-		VBox optionsBox = new VBox(10, optionLabel, vLabel, verticalSlider, hLabel, horizontalSlider,translateXLabel,xTranslate,
-				translateXSubmit,translateYLabel,yTranslate,translateYSubmit );
+		VBox optionsBox = new VBox(10, optionLabel, vLabel, verticalSlider, hLabel, horizontalSlider,sLabel,scaleSlider,translateXLabel,xTranslate,
+				translateXSubmit,translateYLabel,yTranslate,translateYSubmit,cLabel );
 		optionsBox.setAlignment(Pos.TOP_CENTER);
 		HBox hb1 = new HBox(bp,optionsBox);
 
@@ -347,6 +358,19 @@ public class MainClass extends Application{
 
 			else if(selectedShape.equals(box)){
 				boxRotateX.setAngle((double) newVal);
+			}
+		});
+		
+		scaleSlider.valueProperty().addListener((o,oldVal,newVal) -> {
+			if(selectedShape.equals(cyl)) {
+				cyl.setScaleX(newVal.doubleValue());
+				cyl.setScaleY(newVal.doubleValue());
+			}else if(selectedShape.equals(sphere)) {
+				sphere.setScaleX(newVal.doubleValue());
+				sphere.setScaleY(newVal.doubleValue());
+			}else if(selectedShape.equals(box)) {
+				box.setScaleX(newVal.doubleValue());
+				box.setScaleY(newVal.doubleValue());
 			}
 		});
 
