@@ -318,9 +318,6 @@ public class MainClass extends Application{
 				}
 
 			});
-			if (selectedShape == box){
-				System.out.println("Works");
-			}
 		});
 
 		verticalSlider.valueProperty().addListener((o, oldVal, newVal) ->
