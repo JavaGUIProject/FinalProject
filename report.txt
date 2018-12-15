@@ -12,3 +12,6 @@ to go back to the default color if I didn't add it as a selection. I considered 
 but I found that using a choicebox looked cleaner when added to the subscene. At first I struggled with registering the event but I used 
 nested if and else if statements in order to change each color only when each shape was selected. I know that using nested statements
 isn't the cleanest and fastest way to go about the choicebox; however, I faced roadblocks when trying to find other ways. 
+
+Sean:
+For my part, I made the subscene and the button to add shapes. I added the ability to choose a box, sphere, or cynlinder. The tricky part was for the menu to change when you selected the different shapes. For example, for a sphere, there is no height, width, etc. But for a box, there is a setting for those, but there is no setting for radius. And for a cylinder there is a radius and a height. There is also a setting for translating and scaling initially when you create a shape. I also added the background color changer for the subscene - but Alexa had written that code for the shapes so it was easy for me to copy that over for the background.
