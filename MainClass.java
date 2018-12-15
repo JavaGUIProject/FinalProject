@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
@@ -191,9 +190,13 @@ public class MainClass extends Application{
 	                	        box.setWidth(width);
 	                	        box.setHeight(height);
 	                	        box.setDepth(depth);
-	                	        box.setTranslateX(posX);
-	                	        box.setTranslateY(posY);
-
+	                	        box.getTransforms().add(new Translate(posX, posY, 0));
+	                	        box.getTransforms().add(new Rotate(0, Rotate.X_AXIS));
+	                	        box.getTransforms().add(new Rotate(0, Rotate.Y_AXIS));
+	                	        box.getTransforms().add(new Rotate(0, Rotate.Z_AXIS));
+	                	        //box.setTranslateX(posX);
+	                	        //box.setTranslateY(posY);
+	                	        saver.saveBox(box);
 								shapesGroup.getChildren().addAll(box);
 	                	       dialog.hide();
 	                		});
@@ -215,7 +218,7 @@ public class MainClass extends Application{
 	                			cyl.setHeight(height);
 	                			cyl.setTranslateX(posX);
 	                			cyl.setTranslateY(posY);
-
+	                			saver.saveCylinder(cyl);
 								shapesGroup.getChildren().addAll(cyl);
                                 dialog.hide();
 	                		});
@@ -233,7 +236,7 @@ public class MainClass extends Application{
 	                			sphere.setRadius(rad);
 	                			sphere.setTranslateX(posX);
 	                			sphere.setTranslateY(posY);
-
+	                			saver.saveSphere(sphere);
 								shapesGroup.getChildren().addAll(sphere);
 								dialog.hide();
 	                		});
@@ -467,6 +470,18 @@ public class MainClass extends Application{
 			File f = chooser.showOpenDialog(stage);
 			if(f != null) {
 				saver.loadAll(f.getAbsolutePath());
+				Box[] boxes = saver.getBoxes();
+				for(int i = 0; i < boxes.length; i++) {
+					shapesGroup.getChildren().add(boxes[i]);
+				}
+				Cylinder[] cylinders = saver.getCylinders();
+				for(int i = 0; i < cylinders.length; i++) {
+					shapesGroup.getChildren().add(cylinders[i]);
+				}
+				Sphere[] spheres = saver.getSpheres();
+				for(int i = 0; i < cylinders.length; i++) {
+					shapesGroup.getChildren().add(spheres[i]);
+				}
 			}
 		});
 		exit.setOnAction(event -> {
@@ -480,6 +495,7 @@ public class MainClass extends Application{
 		stage.setTitle("Shapes App");
 		stage.show();
 	}
+	
 
 	private static SubScene createSubScene(Group g1, String title,
         Paint fillPaint, PerspectiveCamera camera, boolean msaa) {
