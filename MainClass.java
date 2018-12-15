@@ -86,7 +86,6 @@ public class MainClass extends Application{
 		BorderPane bp = new BorderPane();
 		bp.setPadding(new Insets(10,10,10,10));
 		HBox leftBox = new HBox();
-		leftBox.getChildren().add(new Label("Welcome"));
 		leftBox.setAlignment(Pos.TOP_CENTER);
 		HBox rightBox = new HBox();
 		rightBox.setAlignment(Pos.TOP_CENTER);
@@ -267,6 +266,8 @@ public class MainClass extends Application{
 
 		bottomBox.getChildren().addAll(addButton);
 		bottomBox.setAlignment(Pos.CENTER);
+		bottomBox.setStyle("-fx-border-color: black");
+		bottomBox.setPadding(new Insets(5));
 		bp.setBottom(bottomBox);
 
 		//cyl.getTransforms().addAll(translate,scale,cylinderRotateX, cylinderRotateY);
@@ -299,7 +300,7 @@ public class MainClass extends Application{
 		scaleSlider.setMax(10);
 		
 		Label cLabel = new Label("Color");
-		ChoiceBox colorChoice = new ChoiceBox(FXCollections.observableArrayList(
+		ChoiceBox<String> colorChoice = new ChoiceBox<String>(FXCollections.observableArrayList(
                 "Default","Red","Orange","Yellow","Green","Blue","Purple"));
                 colorChoice.getSelectionModel().select(0);
                 colorChoice.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
@@ -330,7 +331,7 @@ public class MainClass extends Application{
 		VBox optionsBox = new VBox(10, optionLabel, vLabel, verticalSlider, hLabel, horizontalSlider,sLabel,scaleSlider,translateXLabel,xTranslate,
 				translateXSubmit,translateYLabel,yTranslate,translateYSubmit,cLabel,colorChoice);
 		optionsBox.setAlignment(Pos.TOP_CENTER);
-		HBox hb1 = new HBox(bp,optionsBox);
+		HBox hb1 = new HBox(optionsBox);
 
 		
         
@@ -352,8 +353,11 @@ public class MainClass extends Application{
 		});
 		
 		scaleSlider.valueProperty().addListener((o,oldVal,newVal) -> {
+				
 			selectedShape.setScaleX(newVal.doubleValue());
 			selectedShape.setScaleY(newVal.doubleValue());
+			//selectedShape.setScaleX(newVal.doubleValue());
+			//selectedShape.setScaleY(newVal.doubleValue());
 			
 		});
 		save.setOnAction(event-> {
@@ -398,9 +402,13 @@ public class MainClass extends Application{
 			System.exit(1);
 		});
 		bp.setTop(bar);
+		bp.setRight(hb1);
+		bp.setPadding(new Insets(10));
+		hb1.setStyle("-fx-border-color: black");
+		hb1.setPadding(new Insets(10));
 		stage.setWidth(800);
-		stage.setHeight(600);
-		Scene scene = new Scene(hb1);
+		stage.setHeight(700);
+		Scene scene = new Scene(bp);
 		stage.setScene(scene);
 		stage.setTitle("Shapes App");
 		stage.show();
