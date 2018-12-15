@@ -84,7 +84,6 @@ public class MainClass extends Application{
 		Group shapesGroup = new Group();
 		PerspectiveCamera pCam = new PerspectiveCamera();
 		BorderPane bp = new BorderPane();
-		bp.setPadding(new Insets(10,10,10,10));
 		HBox leftBox = new HBox();
 		leftBox.setAlignment(Pos.TOP_CENTER);
 		HBox rightBox = new HBox();
@@ -337,6 +336,7 @@ public class MainClass extends Application{
                 colorChoice.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
                     public void changed(ObservableValue ov, Number oldValue, Number newValue) {
                        int selected = newValue.intValue();
+                       if(selectedShape != null) {
                        if(selected == 1) {
                         	   selectedShape.setMaterial(new PhongMaterial(Color.RED));
                        }else if(selected == 2) {
@@ -355,7 +355,8 @@ public class MainClass extends Application{
 
                        }else if(selected == 0) {
                               selectedShape.setMaterial(new PhongMaterial(Color.LIGHTGRAY));
-                       }        
+                       }      
+                       }
                     }
                 });
 		
@@ -367,29 +368,31 @@ public class MainClass extends Application{
 		
         
 		translateXSubmit.setOnAction(event->{
+			if(translate != null)
 			translate.setX(Integer.parseInt(xTranslate.getText()));
 		});
 		translateYSubmit.setOnAction(event->{
+			if(translate != null)
 			translate.setY(Integer.parseInt(yTranslate.getText()));
 		});
 		verticalSlider.valueProperty().addListener((o, oldVal, newVal) ->
 		{
+			if(rY != null)
 			rY.setAngle((double)newVal);
 		});
 
 		horizontalSlider.valueProperty().addListener((o, oldVal, newVal) ->
 		{
+			if(rX != null)
 			rX.setAngle((double)newVal);
 			
 		});
 		
 		scaleSlider.valueProperty().addListener((o,oldVal,newVal) -> {
-				
-			selectedShape.setScaleX(newVal.doubleValue());
-			selectedShape.setScaleY(newVal.doubleValue());
-			//selectedShape.setScaleX(newVal.doubleValue());
-			//selectedShape.setScaleY(newVal.doubleValue());
-			
+			if(selectedShape != null) {
+				selectedShape.setScaleX(newVal.doubleValue());
+				selectedShape.setScaleY(newVal.doubleValue());
+			}
 		});
 		save.setOnAction(event-> {
 			FileChooser chooser = new FileChooser();
@@ -423,7 +426,7 @@ public class MainClass extends Application{
 					shapesGroup.getChildren().addAll(cylinders[i]);
 				}
 				Sphere[] spheres = saver.getSpheres();
-				for(int i = 0; i < cylinders.length; i++) {
+				for(int i = 0; i < spheres.length; i++) {
 					spheres[i].addEventHandler(MouseEvent.MOUSE_CLICKED, new ClickHandler());
 					shapesGroup.getChildren().addAll(spheres[i]);
 				}
@@ -434,7 +437,7 @@ public class MainClass extends Application{
 		});
 		bp.setTop(bar);
 		bp.setRight(hb1);
-		bp.setPadding(new Insets(10));
+		bp.setPadding(new Insets(0, 10, 10, 10));
 		hb1.setStyle("-fx-border-color: black");
 		hb1.setPadding(new Insets(10));
 		stage.setWidth(800);
@@ -475,7 +478,7 @@ public class MainClass extends Application{
         AmbientLight ambientLight = new AmbientLight(Color.color(0, 0, 0));
         root.getChildren().addAll(ambientLight, light, light2);
 
-        SubScene subScene = new SubScene(g1, 500, 400, true,
+        SubScene subScene = new SubScene(g1, 500, 550, true,
                 msaa ? SceneAntialiasing.BALANCED : SceneAntialiasing.DISABLED);
         subScene.setFill(fillPaint);
         subScene.setCamera(camera);
