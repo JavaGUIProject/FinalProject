@@ -472,15 +472,16 @@ public class MainClass extends Application{
 				saver.loadAll(f.getAbsolutePath());
 				Box[] boxes = saver.getBoxes();
 				for(int i = 0; i < boxes.length; i++) {
-					shapesGroup.getChildren().add(boxes[i]);
+					shapesGroup.getChildren().addAll(boxes[i]);
+					System.out.println(boxes[i].getTranslateX());
 				}
 				Cylinder[] cylinders = saver.getCylinders();
 				for(int i = 0; i < cylinders.length; i++) {
-					shapesGroup.getChildren().add(cylinders[i]);
+					shapesGroup.getChildren().addAll(cylinders[i]);
 				}
 				Sphere[] spheres = saver.getSpheres();
 				for(int i = 0; i < cylinders.length; i++) {
-					shapesGroup.getChildren().add(spheres[i]);
+					shapesGroup.getChildren().addAll(spheres[i]);
 				}
 			}
 		});
