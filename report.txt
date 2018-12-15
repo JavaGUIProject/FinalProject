@@ -1,0 +1,14 @@
+"To be submitted: All source code files, as well as a brief report (~2 paragraphs) from each student discussing what challenges they
+encountered and how they were solved, as well as which part of the project they worked on."
+
+Alexa:
+For my part of the project I worked on adding a slider to scale the selected shape and a drop down to change the color of
+the selected shape. A challenge I found when creating the slider was that when I originlly set the scale and moved the slider,
+the shape would become large very quickly and take up the whole screen. I had to adjust the max value in order to get a more gradual
+scale change. Also, I set the min to 0 originally which caused the shape to disappear altogehter so I changed the min to 1.
+As for creating the color drop down, I found this to be more difficult and it took more time for me than the slider. I used a choicebox
+to add various colors as well as the default color of lightgray, because I found that once you clicked a color choice there was no way 
+to go back to the default color if I didn't add it as a selection. I considered using a button that led to a listview to change the color
+but I found that using a choicebox looked cleaner when added to the subscene. At first I struggled with registering the event but I used 
+nested if and else if statements in order to change each color only when each shape was selected. I know that using nested statements
+isn't the cleanest and fastest way to go about the choicebox; however, I faced roadblocks when trying to find other ways. 
