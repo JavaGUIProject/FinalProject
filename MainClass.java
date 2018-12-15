@@ -10,6 +10,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Point3D;
@@ -53,15 +54,19 @@ public class MainClass extends Application{
 	Sphere sphere = new Sphere();
     Cylinder cyl = new Cylinder();
     ShapeSaver saver = new ShapeSaver();
-    Rotate cylinderRotateX = new Rotate(0, Rotate.X_AXIS);
-    Rotate cylinderRotateY = new Rotate(0, Rotate.Y_AXIS);
-	Rotate sphereRotateX = new Rotate(0, Rotate.X_AXIS);
-	Rotate sphereRotateY = new Rotate(0, Rotate.Y_AXIS);
-	Rotate boxRotateX = new Rotate(0, Rotate.X_AXIS);
-	Rotate boxRotateY = new Rotate(0, Rotate.Y_AXIS);
+    Translate translate;
+    Rotate rX;
+    Rotate rY;
+    Rotate rZ;
+//    Rotate cylinderRotateX = new Rotate(0, Rotate.X_AXIS);
+//    Rotate cylinderRotateY = new Rotate(0, Rotate.Y_AXIS);
+//	Rotate sphereRotateX = new Rotate(0, Rotate.X_AXIS);
+//	Rotate sphereRotateY = new Rotate(0, Rotate.Y_AXIS);
+//	Rotate boxRotateX = new Rotate(0, Rotate.X_AXIS);
+//	Rotate boxRotateY = new Rotate(0, Rotate.Y_AXIS);
 	int posX;
 	int posY;
-	Scale scale = new Scale(1.0,1.0,1.0);
+	//Scale scale = new Scale(1.0,1.0,1.0);
 
 	public static void main(String[] args) {
 		Application.launch(args);
@@ -101,7 +106,7 @@ public class MainClass extends Application{
 		Button translateXSubmit = new Button("Submit");
 		Label translateYLabel = new Label("Translate Y-Coordinate");
 		Button translateYSubmit = new Button("Submit");
-		Translate translate = new Translate(0,0);
+
 		
 		HBox bottomBox = new HBox();
 		Button addButton = new Button("Add Shape");
@@ -180,6 +185,8 @@ public class MainClass extends Application{
 
 	                		addShapeBut.setOnAction((p)->
 	                		{
+	                			box = new Box();
+	                			box.addEventHandler(MouseEvent.MOUSE_CLICKED, new ClickHandler());
 	                			posX = Integer.parseInt(xInputBox.getText());
 	                			posY = Integer.parseInt(yInputBox.getText());
 		                		int width = Integer.parseInt(heightInputBox.getText());
@@ -213,12 +220,15 @@ public class MainClass extends Application{
 	                			posY = Integer.parseInt(yInputBox.getText());
 		                		int rad = Integer.parseInt(radInputBox.getText());
 		                		int height = Integer.parseInt(widthInputBox.getText());
-
+		                		cyl = new Cylinder();
+		                		cyl.addEventHandler(MouseEvent.MOUSE_CLICKED, new ClickHandler());
 	                			cyl.setRadius(rad);
 	                			cyl.setHeight(height);
-	                			cyl.setTranslateX(posX);
-	                			cyl.setTranslateY(posY);
-	                			saver.saveCylinder(cyl);
+	                			cyl.getTransforms().add(new Translate(posX, posY, 0));
+		                	    cyl.getTransforms().add(new Rotate(0, Rotate.X_AXIS));
+		                	    cyl.getTransforms().add(new Rotate(0, Rotate.Y_AXIS));
+		                	    cyl.getTransforms().add(new Rotate(0, Rotate.Z_AXIS));
+		                	    saver.saveCylinder(cyl);
 								shapesGroup.getChildren().addAll(cyl);
                                 dialog.hide();
 	                		});
@@ -232,10 +242,13 @@ public class MainClass extends Application{
 	                			posY = Integer.parseInt(yInputBox.getText());
 		                		int rad = Integer.parseInt(radInputBox.getText());
 
-
+		                		sphere = new Sphere();
+		                		sphere.addEventHandler(MouseEvent.MOUSE_CLICKED, new ClickHandler());
 	                			sphere.setRadius(rad);
-	                			sphere.setTranslateX(posX);
-	                			sphere.setTranslateY(posY);
+	                			sphere.getTransforms().add(new Translate(posX, posY, 0));
+	                			sphere.getTransforms().add(new Rotate(0, Rotate.X_AXIS));
+		                	    sphere.getTransforms().add(new Rotate(0, Rotate.Y_AXIS));
+		                	    sphere.getTransforms().add(new Rotate(0, Rotate.Z_AXIS));
 	                			saver.saveSphere(sphere);
 								shapesGroup.getChildren().addAll(sphere);
 								dialog.hide();
@@ -256,9 +269,9 @@ public class MainClass extends Application{
 		bottomBox.setAlignment(Pos.CENTER);
 		bp.setBottom(bottomBox);
 
-		cyl.getTransforms().addAll(translate,scale,cylinderRotateX, cylinderRotateY);
-		box.getTransforms().addAll(translate,scale, boxRotateX, boxRotateY);
-		sphere.getTransforms().addAll(translate,scale,sphereRotateX,sphereRotateY);
+		//cyl.getTransforms().addAll(translate,scale,cylinderRotateX, cylinderRotateY);
+		//box.getTransforms().addAll(translate,scale, boxRotateX, boxRotateY);
+		//sphere.getTransforms().addAll(translate,scale,sphereRotateX,sphereRotateY);
 
 
 		Label optionLabel = new Label("Options");
@@ -357,99 +370,29 @@ public class MainClass extends Application{
 		optionsBox.setAlignment(Pos.TOP_CENTER);
 		HBox hb1 = new HBox(bp,optionsBox);
 
-
-        cyl.setOnMouseClicked(event -> {
-            selectedShape = cyl;
-			translateXSubmit.setOnMouseClicked(e -> {
-				if(selectedShape.equals(cyl))
-				{
-					translate.setX((Double.parseDouble(xTranslate.getText())));
-				}
-			});
-			translateYSubmit.setOnMouseClicked(e -> {
-				if(selectedShape.equals(cyl))
-				{
-					translate.setY((Double.parseDouble(yTranslate.getText())));
-				}
-
-			});
-        });
-
-		sphere.setOnMouseClicked(event -> {
-			selectedShape = sphere;
-			translateXSubmit.setOnMouseClicked(e -> {
-				if(selectedShape.equals(sphere))
-				{
-					translate.setX((Double.parseDouble(xTranslate.getText())));
-				}
-			});
-			translateYSubmit.setOnMouseClicked(e -> {
-				if(selectedShape.equals(sphere))
-				{
-					translate.setY((Double.parseDouble(yTranslate.getText())));
-				}
-
-			});
+		
+        
+		translateXSubmit.setOnAction(event->{
+			translate.setX(Integer.parseInt(xTranslate.getText()));
 		});
-
-		box.setOnMouseClicked(event -> {
-			selectedShape = box;
-			translateXSubmit.setOnMouseClicked(e -> {
-				if(selectedShape.equals(box))
-				{
-					translate.setX((Double.parseDouble(xTranslate.getText())));
-				}
-			});
-			translateYSubmit.setOnMouseClicked(e -> {
-				if(selectedShape.equals(box))
-				{
-					translate.setY((Double.parseDouble(yTranslate.getText())));
-				}
-
-			});
+		translateYSubmit.setOnAction(event->{
+			translate.setY(Integer.parseInt(yTranslate.getText()));
 		});
-
 		verticalSlider.valueProperty().addListener((o, oldVal, newVal) ->
 		{
-			if(selectedShape.equals(cyl))
-			{
-				cylinderRotateY.setAngle((double)newVal);
-			}
-			else if(selectedShape.equals(sphere)){
-				sphereRotateY.setAngle((double) newVal);
-			}
-
-			else if(selectedShape.equals(box)){
-				boxRotateY.setAngle((double) newVal);
-			}
+			rY.setAngle((double)newVal);
 		});
 
 		horizontalSlider.valueProperty().addListener((o, oldVal, newVal) ->
 		{
-			if(selectedShape.equals(cyl))
-			{
-				cylinderRotateX.setAngle((double)newVal);
-			}
-			else if(selectedShape.equals(sphere)){
-				sphereRotateX.setAngle((double) newVal);
-			}
-
-			else if(selectedShape.equals(box)){
-				boxRotateX.setAngle((double) newVal);
-			}
+			rX.setAngle((double)newVal);
+			
 		});
 		
 		scaleSlider.valueProperty().addListener((o,oldVal,newVal) -> {
-			if(selectedShape.equals(cyl)) {
-				cyl.setScaleX(newVal.doubleValue());
-				cyl.setScaleY(newVal.doubleValue());
-			}else if(selectedShape.equals(sphere)) {
-				sphere.setScaleX(newVal.doubleValue());
-				sphere.setScaleY(newVal.doubleValue());
-			}else if(selectedShape.equals(box)) {
-				box.setScaleX(newVal.doubleValue());
-				box.setScaleY(newVal.doubleValue());
-			}
+			selectedShape.setScaleX(newVal.doubleValue());
+			selectedShape.setScaleY(newVal.doubleValue());
+			
 		});
 		save.setOnAction(event-> {
 			FileChooser chooser = new FileChooser();
@@ -466,6 +409,7 @@ public class MainClass extends Application{
 			
 		});
 		load.setOnAction(event -> {
+			shapesGroup.getChildren().remove(0, shapesGroup.getChildren().size()-1);
 			FileChooser chooser = new FileChooser();
 			File f = chooser.showOpenDialog(stage);
 			if(f != null) {
@@ -497,7 +441,21 @@ public class MainClass extends Application{
 		stage.show();
 	}
 	
+	public class ClickHandler implements EventHandler<Event>{
 
+		@Override
+		public void handle(Event event) {
+			System.out.println("WE ARE HERE");
+			selectedShape = (Shape3D)event.getSource();
+			translate = (Translate)selectedShape.getTransforms().get(0);
+			rX = (Rotate)selectedShape.getTransforms().get(1);
+			rY = (Rotate)selectedShape.getTransforms().get(2);
+			rZ = (Rotate)selectedShape.getTransforms().get(3);
+			selectedShape = (Shape3D)event.getSource();
+			
+		}
+		
+	}
 	private static SubScene createSubScene(Group g1, String title,
         Paint fillPaint, PerspectiveCamera camera, boolean msaa) {
         HBox root = new HBox();

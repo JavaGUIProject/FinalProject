@@ -160,6 +160,7 @@ public class ShapeSaver {
 		 	bw.close();
 		 	return true;
 		}catch(IOException e){
+			System.out.println("WE ARE HERE");
 			return false;
 		}
 	}	
