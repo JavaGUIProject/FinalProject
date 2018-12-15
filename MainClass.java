@@ -107,7 +107,7 @@ public class MainClass extends Application{
 		Button translateYSubmit = new Button("Submit");
 
 		
-		HBox bottomBox = new HBox();
+		HBox bottomBox = new HBox(10d);
 		Button addButton = new Button("Add Shape");
 		addButton.setOnAction(
 	        new EventHandler<ActionEvent>() {
@@ -263,8 +263,39 @@ public class MainClass extends Application{
 	            }
 	         });
 
+		Label bgColorLabel = new Label("Color");
+		ChoiceBox<String> bgColorChoice = new ChoiceBox<String>(FXCollections.observableArrayList(
+				"Default","Red","Orange","Yellow","Green","Blue","Purple"));
+		bgColorChoice.getSelectionModel().select(0);
+		bgColorChoice.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue ov, Number oldValue, Number newValue) {
+				int selected = newValue.intValue();
+				if(selected == 1) {
+					subScene.setFill(Color.RED);
+				}else if(selected == 2) {
 
-		bottomBox.getChildren().addAll(addButton);
+					subScene.setFill(Color.ORANGE);
+
+				} else if(selected == 3) {
+					subScene.setFill(Color.YELLOW);
+				}else if(selected == 4) {
+					subScene.setFill(Color.GREEN);
+
+				}else if(selected == 5) {
+					subScene.setFill(Color.BLUE);
+				}else if(selected == 6) {
+					subScene.setFill(Color.PURPLE);
+
+				}else if(selected == 0) {
+					subScene.setFill(Color.LIGHTGRAY);
+				}
+			}
+		});
+
+
+		bottomBox.getChildren().addAll(addButton,bgColorLabel,bgColorChoice);
+		//bottomBox.setPadding(new Insets(0,10,0,10));
+
 		bottomBox.setAlignment(Pos.CENTER);
 		bottomBox.setStyle("-fx-border-color: black");
 		bottomBox.setPadding(new Insets(5));
