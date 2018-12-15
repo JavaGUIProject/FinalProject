@@ -16,24 +16,7 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 
 public class ShapeSaver {
-	public static void main(String[] args) {
-		ShapeSaver saver = new ShapeSaver();
-		Box b = new Box(0, 0, 0);
-		b.getTransforms().add(new Translate(1, 1, 1));
-		Rotate r = new Rotate();
-		r.setAxis(new Point3D(5, 5, 5));
-		b.setScaleX(10);
-		b.getTransforms().add(r);
-		saver.saveBox(b);
-		saver.saveBox(b);
-		saver.saveAll("C:\\Users\\Shant\\Desktop\\proba.txt");
-		saver.loadAll("C:\\Users\\Shant\\Desktop\\proba.txt");
-		for(int i = 0; i < saver.boxes.size(); i++){
-			Box s = saver.boxes.get(i);
-			System.out.println(s.getScaleX());
-		}
-		//saver.printTranslate(b);
-	}
+
 	//sphere, box, cylinder
 	private	List<Box> boxes = new ArrayList<Box>();
 	private List<Sphere> spheres = new ArrayList<Sphere>();
@@ -275,12 +258,15 @@ public class ShapeSaver {
 			br.close();
 			return true;
 		} catch (FileNotFoundException e) {
+			System.out.println("ERROR 1");
 			return false;
 		} catch (IOException e){
 			return false;
 		} catch (NumberFormatException e){
+			System.out.println("ERROR 2");
 			return false;
 		} catch (Exception e){
+			System.out.println("ERROR 3");
 			return false;
 		}
 	}

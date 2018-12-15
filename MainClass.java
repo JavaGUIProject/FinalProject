@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,7 @@ import javafx.scene.shape.Shape3D;
 import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -50,6 +53,7 @@ public class MainClass extends Application{
 	Box box = new Box();
 	Sphere sphere = new Sphere();
     Cylinder cyl = new Cylinder();
+    ShapeSaver saver = new ShapeSaver();
     Rotate cylinderRotateX = new Rotate(0, Rotate.X_AXIS);
     Rotate cylinderRotateY = new Rotate(0, Rotate.Y_AXIS);
 	Rotate sphereRotateX = new Rotate(0, Rotate.X_AXIS);
@@ -66,7 +70,13 @@ public class MainClass extends Application{
 
 	@Override
 	public void start(Stage stage) {
-
+		MenuBar bar = new MenuBar();
+		Menu menu = new Menu("File");
+		MenuItem save = new MenuItem("Save");
+		MenuItem load = new MenuItem("Load");
+		MenuItem exit = new MenuItem("Exit");
+		menu.getItems().addAll(save, load, exit);
+		bar.getMenus().add(menu);
 		Group shapesGroup = new Group();
 		PerspectiveCamera pCam = new PerspectiveCamera();
 		BorderPane bp = new BorderPane();
@@ -83,8 +93,6 @@ public class MainClass extends Application{
 		SubScene subScene = createSubScene(shapesGroup,"3D Shapes",
                 Color.TRANSPARENT,
                 pCam, true);
-
-
 		centerBox.getChildren().add(subScene);
 		centerBox.setAlignment(Pos.CENTER);
 
@@ -95,8 +103,7 @@ public class MainClass extends Application{
 		Label translateYLabel = new Label("Translate Y-Coordinate");
 		Button translateYSubmit = new Button("Submit");
 		Translate translate = new Translate(0,0);
-
-
+		
 		HBox bottomBox = new HBox();
 		Button addButton = new Button("Add Shape");
 		addButton.setOnAction(
@@ -441,7 +448,31 @@ public class MainClass extends Application{
 				box.setScaleY(newVal.doubleValue());
 			}
 		});
-
+		save.setOnAction(event-> {
+			FileChooser chooser = new FileChooser();
+			File f = chooser.showSaveDialog(stage);
+			if(f != null) {
+				try {
+					f.createNewFile();
+					saver.saveAll(f.getAbsolutePath());
+				} catch (IOException e) {
+					
+				}
+			}
+			
+			
+		});
+		load.setOnAction(event -> {
+			FileChooser chooser = new FileChooser();
+			File f = chooser.showOpenDialog(stage);
+			if(f != null) {
+				saver.loadAll(f.getAbsolutePath());
+			}
+		});
+		exit.setOnAction(event -> {
+			System.exit(1);
+		});
+		bp.setTop(bar);
 		stage.setWidth(800);
 		stage.setHeight(600);
 		Scene scene = new Scene(hb1);
