@@ -22,7 +22,7 @@ I also added the background color changer for the subscene - but Alexa had writt
 The tricky part for me was making the different settings disappear and then reappear again when you changed what kind of shape
 that you were going to make.
 
-Siavash:
+Siavash Shahin:
 For my role in this assignment, I was in charge of having whatever shape that was clicked on in the subscene become the selected shape, 
 as well as the rotation and translation of the shape. I originally created these in a seperate program with test shapes already added 
 in order to get a basic idea of how I would code it. Once most of the code for creating and object and subscene was created by Sean,
