@@ -33,5 +33,14 @@ So I had to create a Group, add it to the subscene, and have whatever shape that
 There were a good amount of repeat lines of codes when I handled the mouseclick event at first, but with the groups help it is now more clean and efficient. 
 
 Mases:
-I took charge of the saving and loading of the objects. I wrote a seperate class that gets initialized in the main class. The main challenge was implementing the saver class to work with the original class. I had to make many adjustments to the original class to make it work to how I was saving the information in the saver class. Additionally, when trying to the transformation of the objects, I had to make the selection method more abstract and implement an Event handler for the Mouse Clicked event that checks the source and casts it into a Shape3D object. Since that object contains all the functionalties of the other shapes, it was easy to slightly fix the rotation and translation methods to work on that object in an abstract way. 
-When loading back the objects, I found that reading the objects and creating them in a seperate class meant I need to initialize all the boxes from scratch and re write their transformations. We settled on making the objects have transforms in order. For example, the translation,rotation, and scaling go in that order. So when the main class retrieves it, it knows to re initialize the sub scene objects and transform them properly. This was tedious to keep track of, and required consistency across all implementations.
+I took charge of the saving and loading of the objects. I wrote a seperate class that gets initialized in the main class. The main
+challenge was implementing the saver class to work with the original class. I had to make many adjustments to the original class to make
+it work to how I was saving the information in the saver class. Additionally, when trying to the transformation of the objects, I had to
+make the selection method more abstract and implement an Event handler for the Mouse Clicked event that checks the source and casts it
+into a Shape3D object. Since that object contains all the functionalties of the other shapes, it was easy to slightly fix the rotation
+and translation methods to work on that object in an abstract way. 
+
+When loading back the objects, I found that reading the objects and creating them in a seperate class meant I need to initialize all th
+e boxes from scratch and re write their transformations. We settled on making the objects have transforms in order. For example, the
+translation,rotation, and scaling go in that order. So when the main class retrieves it, it knows to re initialize the sub scene objects
+and transform them properly. This was tedious to keep track of, and required consistency across all implementations.
