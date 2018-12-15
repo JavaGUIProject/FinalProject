@@ -21,3 +21,7 @@ There is also a setting for translating and scaling initially when you create a 
 I also added the background color changer for the subscene - but Alexa had written that code for the shapes so it was easy for me to copy that over for the background.
 The tricky part for me was making the different settings disappear and then reappear again when you changed what kind of shape
 that you were going to make.
+
+Siavash:
+For my role in this assignment, I was in charge of having whatever shape that was clicked on in the subscene become the selected shape, as well as the rotation and translation of the shape. I originally created these in a seperate program with test shapes already added in order to get a basic idea of how I would code it. Once most of the code for creating and object and subscene was created by Sean, I was able to translate what I had into the code the group was working on. 
+I did have some trouble when it came to getting a mouseclick event to work whenever a shape was clicked in the subscene. Whenever a shape was created it was saved to the subscene, however I could not click on specific objects inside the subscene. So I had to create a Group, add it to the subscene, and have whatever shape that was created then added to the Group. There were a good amount of repeat lines of codes when I handled the mouseclick event at first, but with the groups help it is now more clean and efficient. 
