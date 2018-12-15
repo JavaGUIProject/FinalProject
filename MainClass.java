@@ -306,61 +306,23 @@ public class MainClass extends Application{
                     public void changed(ObservableValue ov, Number oldValue, Number newValue) {
                        int selected = newValue.intValue();
                        if(selected == 1) {
-                           if(selectedShape.equals(cyl)) {
-                               cyl.setMaterial(new PhongMaterial(Color.RED));
-                           }else if(selectedShape.equals(sphere)){
-                               sphere.setMaterial(new PhongMaterial(Color.RED));
-                           }else if(selectedShape.equals(box)) {
-                               box.setMaterial(new PhongMaterial(Color.RED));
-                           }
+                        	   selectedShape.setMaterial(new PhongMaterial(Color.RED));
                        }else if(selected == 2) {
-                               if(selectedShape.equals(cyl)) {
-                               cyl.setMaterial(new PhongMaterial(Color.ORANGE));
-                           }else if(selectedShape.equals(sphere)){
-                               sphere.setMaterial(new PhongMaterial(Color.ORANGE));
-                           }else if(selectedShape.equals(box)) {
-                               box.setMaterial(new PhongMaterial(Color.ORANGE));
-                           }
+                               
+                               selectedShape.setMaterial(new PhongMaterial(Color.ORANGE));
+                           
                        } else if(selected == 3) {
-                               if(selectedShape.equals(cyl)) {
-                               cyl.setMaterial(new PhongMaterial(Color.YELLOW));
-                           }else if(selectedShape.equals(sphere)){
-                               sphere.setMaterial(new PhongMaterial(Color.YELLOW));
-                           }else if(selectedShape.equals(box)) {
-                               box.setMaterial(new PhongMaterial(Color.YELLOW));
-                           }
+                               selectedShape.setMaterial(new PhongMaterial(Color.YELLOW));
                        }else if(selected == 4) {
-                               if(selectedShape.equals(cyl)) {
-                               cyl.setMaterial(new PhongMaterial(Color.GREEN));
-                           }else if(selectedShape.equals(sphere)){
-                               sphere.setMaterial(new PhongMaterial(Color.GREEN));
-                           }else if(selectedShape.equals(box)) {
-                               box.setMaterial(new PhongMaterial(Color.GREEN));
-                           }
+                                selectedShape.setMaterial(new PhongMaterial(Color.GREEN));
+
                        }else if(selected == 5) {
-                               if(selectedShape.equals(cyl)) {
-                               cyl.setMaterial(new PhongMaterial(Color.BLUE));
-                           }else if(selectedShape.equals(sphere)){
-                               sphere.setMaterial(new PhongMaterial(Color.BLUE));
-                           }else if(selectedShape.equals(box)) {
-                               box.setMaterial(new PhongMaterial(Color.BLUE));
-                           }
+                                selectedShape.setMaterial(new PhongMaterial(Color.BLUE));
                        }else if(selected == 6) {
-                               if(selectedShape.equals(cyl)) {
-                               cyl.setMaterial(new PhongMaterial(Color.PURPLE));
-                           }else if(selectedShape.equals(sphere)){
-                               sphere.setMaterial(new PhongMaterial(Color.PURPLE));
-                           }else if(selectedShape.equals(box)) {
-                               box.setMaterial(new PhongMaterial(Color.PURPLE));
-                           }
+                              selectedShape.setMaterial(new PhongMaterial(Color.PURPLE));
+
                        }else if(selected == 0) {
-                               if(selectedShape.equals(cyl)) {
-                               cyl.setMaterial(new PhongMaterial(Color.LIGHTGRAY));
-                           }else if(selectedShape.equals(sphere)){
-                               sphere.setMaterial(new PhongMaterial(Color.LIGHTGRAY));
-                           }else if(selectedShape.equals(box)) {
-                               box.setMaterial(new PhongMaterial(Color.LIGHTGRAY));
-                           }
+                              selectedShape.setMaterial(new PhongMaterial(Color.LIGHTGRAY));
                        }        
                     }
                 });
@@ -409,22 +371,25 @@ public class MainClass extends Application{
 			
 		});
 		load.setOnAction(event -> {
-			shapesGroup.getChildren().remove(0, shapesGroup.getChildren().size()-1);
 			FileChooser chooser = new FileChooser();
 			File f = chooser.showOpenDialog(stage);
 			if(f != null) {
+				shapesGroup.getChildren().remove(0, shapesGroup.getChildren().size());
 				saver.loadAll(f.getAbsolutePath());
 				Box[] boxes = saver.getBoxes();
 				for(int i = 0; i < boxes.length; i++) {
+					boxes[i].addEventHandler(MouseEvent.MOUSE_CLICKED, new ClickHandler());
 					shapesGroup.getChildren().addAll(boxes[i]);
 					System.out.println(boxes[i].getTranslateX());
 				}
 				Cylinder[] cylinders = saver.getCylinders();
 				for(int i = 0; i < cylinders.length; i++) {
+					cylinders[i].addEventHandler(MouseEvent.MOUSE_CLICKED, new ClickHandler());
 					shapesGroup.getChildren().addAll(cylinders[i]);
 				}
 				Sphere[] spheres = saver.getSpheres();
 				for(int i = 0; i < cylinders.length; i++) {
+					spheres[i].addEventHandler(MouseEvent.MOUSE_CLICKED, new ClickHandler());
 					shapesGroup.getChildren().addAll(spheres[i]);
 				}
 			}
